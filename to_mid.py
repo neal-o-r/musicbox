@@ -45,5 +45,6 @@ def noteStateMatrixToMidi(statematrix, name="example", span=span):
     track.append(eot)
     midi.write_midifile("{}.mid".format(name), pattern)
 
-
-noteStateMatrixToMidi(np.load('out.npy'))
+import glob
+for f in glob.glob('vae/*.npy'):
+        noteStateMatrixToMidi(np.load(f), name=f.split('.')[0])

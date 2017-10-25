@@ -70,16 +70,22 @@ def midiToNoteStateMatrix(midifile, squash=True, span=span):
     return statematrix
 
 
-fs = glob.glob('songs/*.mid')
-out = []
+fs = glob.glob('data/songs/*.mid')
+def chunks(l, n):
+        """Yield successive n-sized chunks from l."""
+        for i in range(0, len(l), n):
+                yield l[i:i + n]
+
 for i, f in enumerate(fs):
 	x = midiToNoteStateMatrix(f)
-	if x.shape[1] == 156:
-		out.append(x[:1000, :])
-	if i % 100 == 0:
-		print i
-	if i > 1000:
-		break
+        if x.shape[0] < 300:
+                continue
 
-out = np.asarray(out)
-np.save('mid.npy', out)
+        if x.shape[1] == 156:
+                bits = list(chunks(x, 300))[:-1]
+                for j, b in enumerate(bits):
+                        np.save('data/npys/{}_{}.npy'.format(i, j), b)
+        if i % 100 == 0:
+		print i
+        if i == 10000:
+                break

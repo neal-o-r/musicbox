@@ -1,3 +1,3 @@
-# Midi Maker
+# Musicbox
 
-An LSTM that learnt to play music.
+Two music playing algorithms, one LSTM, and one VAE.
